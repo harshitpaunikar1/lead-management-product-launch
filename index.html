@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Product Launch Is Mostly a Record of What You Refused to Ship</title>
+  <meta name="description" content="A launch retrospective on taking a lead-management product from internal workflow pain to a priced, scoped, instrumented release without lying about cost, cadence, or support load.">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --ink: #111111;
+      --ink-soft: #333333;
+      --muted: #555555;
+      --quiet: #888888;
+      --rule: #e8e8e8;
+      --panel: #f5f5f5;
+      --panel-deep: #f0f0f0;
+      --white: #ffffff;
+      --black: #111111;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "IBM Plex Sans", system-ui, sans-serif;
+      line-height: 1.72;
+    }
+
+    a {
+      color: inherit;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.16em;
+    }
+
+    .page {
+      max-width: 1520px;
+      margin: 0 auto;
+      padding: 16px 16px 56px;
+    }
+
+    .hero {
+      border: 1px solid var(--black);
+      background: var(--white);
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+    }
+
+    .hero-main {
+      padding: 34px 34px 28px;
+      border-right: 1px solid var(--black);
+      background:
+        linear-gradient(180deg, #ffffff 0, #ffffff 76%, #f5f5f5 76%, #f5f5f5 100%);
+    }
+
+    .hero-side {
+      padding: 24px;
+      background: var(--panel);
+      display: grid;
+      gap: 18px;
+      align-content: start;
+    }
+
+    .kicker {
+      margin: 0 0 14px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 12ch;
+      font-family: "Libre Baskerville", Georgia, serif;
+      font-size: clamp(3rem, 5.3vw, 5.6rem);
+      line-height: 0.96;
+      letter-spacing: -0.04em;
+    }
+
+    .deck {
+      max-width: 50rem;
+      margin: 18px 0 0;
+      font-size: 1.14rem;
+      color: var(--muted);
+    }
+
+    .hero-metrics {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .hero-metric {
+      padding-top: 10px;
+      border-top: 1px solid var(--black);
+    }
+
+    .hero-metric span {
+      display: block;
+      margin-bottom: 7px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .hero-metric strong {
+      font-size: 1.45rem;
+      font-weight: 600;
+    }
+
+    .side-box {
+      border-top: 1px solid var(--black);
+      padding-top: 10px;
+    }
+
+    .side-box h2,
+    .side-box p,
+    .side-box ul {
+      margin: 0;
+    }
+
+    .side-box h2 {
+      margin-bottom: 10px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    .side-box ul {
+      padding-left: 18px;
+      font-size: 0.95rem;
+      color: var(--ink-soft);
+    }
+
+    .side-quote {
+      border: 1px solid var(--ink-soft);
+      background: var(--white);
+      padding: 14px;
+      font-size: 0.96rem;
+    }
+
+    .document {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: 250px minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .timeline-rail {
+      position: sticky;
+      top: 16px;
+      border: 1px solid var(--rule);
+      background: var(--panel);
+      padding: 16px 14px;
+    }
+
+    .timeline-rail h2 {
+      margin: 0 0 12px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .timeline-rail ol {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 0.93rem;
+    }
+
+    .story {
+      border: 1px solid var(--black);
+      padding: 28px 28px 34px;
+      background: var(--white);
+    }
+
+    .opening-note {
+      margin: 0 0 22px;
+      padding: 14px 16px;
+      border-left: 4px solid var(--black);
+      background: var(--panel);
+      font-size: 1rem;
+    }
+
+    .ribbon {
+      margin: 0 0 30px;
+    }
+
+    figure {
+      margin: 0;
+    }
+
+    .figure-frame {
+      border: 1px solid var(--black);
+      background: var(--white);
+      padding: 18px;
+    }
+
+    svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      font-family: "IBM Plex Sans", system-ui, sans-serif;
+    }
+
+    figcaption {
+      margin-top: 10px;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .log {
+      margin-top: 28px;
+      padding-top: 18px;
+      border-top: 1px solid var(--black);
+    }
+
+    .log-head {
+      display: grid;
+      grid-template-columns: 160px minmax(0, 1fr);
+      gap: 18px;
+      align-items: baseline;
+      margin-bottom: 14px;
+    }
+
+    .log-stamp {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding-top: 8px;
+      border-top: 2px solid var(--black);
+    }
+
+    .log h2 {
+      margin: 0;
+      font-size: clamp(1.8rem, 2.7vw, 2.8rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    .log p,
+    .log ul,
+    .log table {
+      margin: 0 0 16px;
+    }
+
+    .log ul {
+      padding-left: 20px;
+    }
+
+    .lead {
+      font-size: 1.08rem;
+    }
+
+    .pull {
+      margin: 18px 0;
+      padding: 18px 20px;
+      background: var(--panel-deep);
+      border: 1px solid var(--rule);
+      font-family: "Libre Baskerville", Georgia, serif;
+      font-size: 1.16rem;
+      line-height: 1.55;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin: 8px 0 18px;
+    }
+
+    .mini-card {
+      border: 1px solid var(--rule);
+      background: var(--panel);
+      padding: 14px;
+    }
+
+    .mini-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.74rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.96rem;
+    }
+
+    th,
+    td {
+      border: 1px solid var(--rule);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--panel);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .closing {
+      border-top: 2px solid var(--black);
+      padding-top: 16px;
+      font-size: 1.08rem;
+    }
+
+    @media (max-width: 1150px) {
+      .hero,
+      .document,
+      .log-head {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-main {
+        border-right: none;
+        border-bottom: 1px solid var(--black);
+      }
+
+      .timeline-rail {
+        position: static;
+      }
+    }
+
+    @media (max-width: 780px) {
+      .page {
+        padding: 10px 10px 34px;
+      }
+
+      .hero-metrics,
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+
+      .story,
+      .figure-frame {
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <section class="hero-main">
+        <p class="kicker">Launch Retrospective / Lead Management Product</p>
+        <h1>A Product Launch Is Mostly a Record of What You Refused to Ship</h1>
+        <p class="deck">The interesting part of this lead-management launch is not that a product eventually reached production. It is that the team had to force three uncomfortable questions into the same room: which lead workflow was actually broken, what margin the business needed, and how much release chaos the team was willing to tolerate in order to move faster.</p>
+        <div class="hero-metrics">
+          <div class="hero-metric">
+            <span>Starting Problem</span>
+            <strong>Ad-hoc lead tracking</strong>
+          </div>
+          <div class="hero-metric">
+            <span>Commercial Lens</span>
+            <strong>Price floor + margin</strong>
+          </div>
+          <div class="hero-metric">
+            <span>Delivery Cadence</span>
+            <strong>Two-week sprints</strong>
+          </div>
+          <div class="hero-metric">
+            <span>Post-Launch Read</span>
+            <strong>Usage + support KPIs</strong>
+          </div>
+        </div>
+      </section>
+      <aside class="hero-side">
+        <div class="side-box">
+          <h2>What The Repo Actually Gives Us</h2>
+          <ul>
+            <li>Discovery interviews and workflow mapping were part of the opening move.</li>
+            <li>The team built a cost model spanning engineering, hosting, and support.</li>
+            <li>The MVP was explicitly scoped against user jobs and measurable outcomes.</li>
+            <li>There was a staging-to-production pipeline, rollback planning, and launch instrumentation.</li>
+          </ul>
+        </div>
+        <div class="side-box">
+          <h2>What It Does Not Give Us</h2>
+          <ul>
+            <li>No source code or screenshots.</li>
+            <li>No actual unit-economics spreadsheet.</li>
+            <li>No reported adoption or support numbers.</li>
+          </ul>
+        </div>
+        <div class="side-quote">That means the piece has to stay honest. I can write a rigorous retrospective about the decisions the README names. I should not invent proof that the folder does not contain.</div>
+      </aside>
+    </header>
+
+    <main class="document">
+      <aside class="timeline-rail">
+        <h2>Decision Sequence</h2>
+        <ol>
+          <li>Confirm the market problem is workflow, not just data mess.</li>
+          <li>Set a price floor before the backlog expands.</li>
+          <li>Freeze an MVP that protects margin and launch speed.</li>
+          <li>Use sprint demos to learn without reopening the whole scope.</li>
+          <li>Launch only with rollback, monitoring, and post-launch instrumentation.</li>
+        </ol>
+      </aside>
+
+      <article class="story">
+        <p class="opening-note">Evidence note: this folder is README-led rather than code-led. The retrospective below stays anchored to the named artifacts and choices in that README: discovery interviews, cost modeling, lean MVP prioritization, two-week sprints, deployment pipeline, and usage / support instrumentation.</p>
+
+        <section class="ribbon">
+          <figure>
+            <div class="figure-frame">
+              <svg viewBox="0 0 1280 720" role="img" aria-labelledby="timeline-title timeline-desc">
+                <title id="timeline-title">Launch timeline ribbon with scope and cost inflection points</title>
+                <desc id="timeline-desc">A wide black-and-white timeline showing discovery, cost modeling, MVP scope freeze, sprint demos, launch readiness gates, and a side strip showing how engineering, hosting, and support costs shaped the product decision.</desc>
+                <defs>
+                  <marker id="arrow-t" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+                    <path d="M0,0 L10,5 L0,10 z" fill="#111111"></path>
+                  </marker>
+                </defs>
+
+                <rect x="20" y="20" width="1240" height="680" fill="#ffffff" stroke="#111111" stroke-width="1.5"></rect>
+
+                <text x="52" y="66" font-size="22" font-weight="700" fill="#111111">Launch ribbon</text>
+                <text x="52" y="92" font-size="14" fill="#555555">The product shape is explained by timing and cost pressure, not by a generic desire to “ship value.”</text>
+
+                <line x1="70" y1="230" x2="960" y2="230" stroke="#111111" stroke-width="2"></line>
+
+                <circle cx="120" cy="230" r="9" fill="#111111"></circle>
+                <text x="96" y="172" font-size="13" fill="#555555">Week 0</text>
+                <text x="78" y="194" font-size="15" font-weight="600" fill="#111111">Discovery</text>
+                <rect x="58" y="244" width="130" height="84" fill="#f5f5f5" stroke="#111111" stroke-width="1.2"></rect>
+                <text x="74" y="272" font-size="13" fill="#111111">Interview teams and map</text>
+                <text x="74" y="292" font-size="13" fill="#111111">the actual lead handoff</text>
+                <text x="74" y="312" font-size="13" fill="#111111">failures.</text>
+
+                <circle cx="295" cy="230" r="9" fill="#111111"></circle>
+                <text x="270" y="172" font-size="13" fill="#555555">Week 2</text>
+                <text x="236" y="194" font-size="15" font-weight="600" fill="#111111">Cost model</text>
+                <rect x="228" y="94" width="134" height="84" fill="#ffffff" stroke="#111111" stroke-width="1.2"></rect>
+                <text x="244" y="122" font-size="13" fill="#111111">Set price floor from</text>
+                <text x="244" y="142" font-size="13" fill="#111111">engineering, hosting,</text>
+                <text x="244" y="162" font-size="13" fill="#111111">and support load.</text>
+
+                <circle cx="470" cy="230" r="9" fill="#111111"></circle>
+                <text x="445" y="172" font-size="13" fill="#555555">Week 4</text>
+                <text x="394" y="194" font-size="15" font-weight="600" fill="#111111">Scope freeze</text>
+                <rect x="402" y="244" width="136" height="84" fill="#111111" stroke="#111111" stroke-width="1.2"></rect>
+                <text x="420" y="272" font-size="13" fill="#f5f5f5">Lean MVP wins.</text>
+                <text x="420" y="292" font-size="13" fill="#f5f5f5">Backlog features wait.</text>
+                <text x="420" y="312" font-size="13" fill="#dddddd">Margin protected.</text>
+
+                <circle cx="645" cy="230" r="9" fill="#111111"></circle>
+                <text x="620" y="172" font-size="13" fill="#555555">Weeks 6-10</text>
+                <text x="575" y="194" font-size="15" font-weight="600" fill="#111111">Sprint cadence</text>
+                <rect x="578" y="94" width="134" height="84" fill="#f5f5f5" stroke="#111111" stroke-width="1.2"></rect>
+                <text x="594" y="122" font-size="13" fill="#111111">Two-week demos test</text>
+                <text x="594" y="142" font-size="13" fill="#111111">real workflows without</text>
+                <text x="594" y="162" font-size="13" fill="#111111">reopening all scope.</text>
+
+                <circle cx="820" cy="230" r="9" fill="#111111"></circle>
+                <text x="794" y="172" font-size="13" fill="#555555">Week 11</text>
+                <text x="739" y="194" font-size="15" font-weight="600" fill="#111111">Launch gate</text>
+                <rect x="752" y="244" width="136" height="84" fill="#f5f5f5" stroke="#111111" stroke-width="1.2"></rect>
+                <text x="768" y="272" font-size="13" fill="#111111">Staging, rollback,</text>
+                <text x="768" y="292" font-size="13" fill="#111111">monitoring, config,</text>
+                <text x="768" y="312" font-size="13" fill="#111111">deployment checks.</text>
+
+                <circle cx="960" cy="230" r="9" fill="#111111"></circle>
+                <text x="934" y="172" font-size="13" fill="#555555">Week 12+</text>
+                <text x="895" y="194" font-size="15" font-weight="600" fill="#111111">Read the launch</text>
+                <rect x="892" y="94" width="136" height="84" fill="#ffffff" stroke="#111111" stroke-width="1.2"></rect>
+                <text x="908" y="122" font-size="13" fill="#111111">Usage analytics and</text>
+                <text x="908" y="142" font-size="13" fill="#111111">support KPIs decide</text>
+                <text x="908" y="162" font-size="13" fill="#111111">what deserves phase two.</text>
+
+                <rect x="1025" y="112" width="195" height="420" fill="#f5f5f5" stroke="#111111" stroke-width="1.2"></rect>
+                <text x="1040" y="142" font-size="16" font-weight="700" fill="#111111">Unit-economics strip</text>
+                <line x1="1040" y1="158" x2="1200" y2="158" stroke="#111111" stroke-width="1.2"></line>
+
+                <text x="1040" y="188" font-size="13" font-weight="600" fill="#111111">Engineering</text>
+                <rect x="1040" y="200" width="122" height="20" fill="#111111"></rect>
+                <text x="1040" y="236" font-size="11" fill="#555555">Scope pressure increases</text>
+                <text x="1040" y="251" font-size="11" fill="#555555">fastest here.</text>
+
+                <text x="1040" y="284" font-size="13" font-weight="600" fill="#111111">Hosting</text>
+                <rect x="1040" y="296" width="76" height="20" fill="#333333"></rect>
+                <text x="1040" y="332" font-size="11" fill="#555555">Important, but rarely</text>
+                <text x="1040" y="347" font-size="11" fill="#555555">what kills the MVP.</text>
+
+                <text x="1040" y="378" font-size="13" font-weight="600" fill="#111111">Support</text>
+                <rect x="1040" y="390" width="104" height="20" fill="#111111"></rect>
+                <text x="1040" y="426" font-size="11" fill="#555555">Ignored too often; grows</text>
+                <text x="1040" y="441" font-size="11" fill="#555555">when workflows are unclear.</text>
+
+                <text x="1040" y="472" font-size="12" fill="#111111">Winning product choices were</text>
+                <text x="1040" y="488" font-size="12" fill="#111111">the ones that lowered support</text>
+                <text x="1040" y="504" font-size="12" fill="#111111">ambiguity without exploding</text>
+                <text x="1040" y="520" font-size="12" fill="#111111">engineering scope.</text>
+
+                <line x1="470" y1="338" x2="470" y2="398" stroke="#111111" stroke-width="1.2" marker-end="url(#arrow-t)"></line>
+                <text x="486" y="386" font-size="12" fill="#555555">scope refusal is the hinge</text>
+              </svg>
+            </div>
+            <figcaption>The timeline matters because the launch was shaped by sequence, not by a feature wish list. Discovery, pricing, scope freeze, sprint discipline, and launch gates each constrained the next move.</figcaption>
+          </figure>
+        </section>
+
+        <section class="log">
+          <div class="log-head">
+            <div class="log-stamp">Decision Log 01</div>
+            <h2>The market problem was not “we need lead software.” It was “our lead handoff is leaking revenue and nobody agrees why.”</h2>
+          </div>
+          <p class="lead">The README starts in the right place: organizations had outgrown ad-hoc lead tracking, leads were falling through the gap between marketing and delivery teams, and response quality was inconsistent. That is already enough to separate a serious launch from a vanity build. A lead-management product should not begin with a feature brainstorm. It should begin with a broken workflow and a commercial consequence.</p>
+          <p>That distinction matters because teams often misread pipeline problems as tooling problems. They think the answer is a dashboard, a scoring screen, or a cleaner status board. Sometimes the real issue is much uglier. One team assumes a lead is qualified once marketing touches it. Another assumes the handoff only happens after an internal note. A third assumes “follow-up” means within the day, while a fourth quietly treats it as within the week. If you do not resolve those disagreements early, you are not launching a product. You are embalming confusion in software.</p>
+          <p>The discovery interviews named in the README are important for exactly this reason. Interviews are not a ceremonial prelude to roadmap work. They are the only reliable way to learn which moments in the lead journey users actually care about, which status transitions trigger urgency, and where adoption will stall if the tool asks people to change behavior without giving them a meaningful operational win in return.</p>
+          <div class="pull">The first launch decision was not about interface or architecture. It was about whether the team was building for abstract CRM neatness or for the very specific pain of slow responses, dropped follow-ups, and workflow ambiguity between functions.</div>
+          <p>That is why I think the README’s phrase “must-have outcomes and adoption blockers” is stronger than it looks. Good launch teams understand that feature demand and adoption demand are not the same thing. Users will ask for everything. They usually adopt only the pieces that remove a repeated daily irritation or reduce a repeated blame cycle. In a lead product, that almost always means clearer ownership, faster response, and less silent loss between stages.</p>
+        </section>
+
+        <section class="log">
+          <div class="log-head">
+            <div class="log-stamp">Decision Log 02</div>
+            <h2>The cost model needed to come before the backlog got emotionally expensive.</h2>
+          </div>
+          <p class="lead">The README explicitly says the team built a cost model spanning engineering, hosting, and support in order to set price floors and target margins. That is the most commercially mature sentence in the folder. Too many launch narratives pretend the product shape emerged from user love alone. In practice, the shape usually emerges when a team discovers what it can afford to build, support, and sell without creating a margin trap.</p>
+          <p>Price floors are not glamorous, but they save teams from a common early mistake: shipping a product with a support burden that quietly consumes the margin it was supposed to create. Lead-management products are especially vulnerable because the surface area looks modest while the operational expectations are not. Users want routing logic, status clarity, notifications, filters, follow-up discipline, and enough flexibility to match their existing process. Each of those requests sounds small in isolation. Together they can turn an MVP into a support-heavy custom product if the team does not impose economic discipline early.</p>
+          <p>The fact that support is named alongside engineering and hosting matters. Hosting is easy to over-discuss and support is easy to under-discuss. For workflow software, support cost is often the sharper constraint. Every confusing edge case, every ambiguous status, every poorly defined handoff becomes a ticket, an onboarding explanation, or an escalation. A launch team that ignores support in its price floor is usually pricing the fantasy product, not the one customers will actually use.</p>
+
+          <div class="two-col">
+            <div class="mini-card">
+              <strong>Why engineering mattered</strong>
+              <p>Each extra workflow path widened the build and test surface, making sprint confidence weaker and scope creep easier.</p>
+            </div>
+            <div class="mini-card">
+              <strong>Why support mattered</strong>
+              <p>Ambiguous workflow states create ongoing operating cost long after launch, especially in tools that coordinate multiple teams.</p>
+            </div>
+          </div>
+
+          <p>Once that cost model exists, feature arguments become less theatrical and more honest. You can stop arguing in the abstract about whether a capability “would be valuable” and start asking whether it belongs inside the first sellable product or in the backlog. That is a healthier conversation. It forces tradeoffs into the open: if we add this workflow branch, what does it do to margin, support complexity, and release speed? If we keep it out, what pain remains tolerable for the first customer?</p>
+          <p>I would go further: the cost model probably shaped the roadmap more than the discovery interviews did. Discovery tells you what users care about. Economics tells you what the business can responsibly promise. A mature launch is the intersection of those two, not the triumph of one over the other.</p>
+        </section>
+
+        <section class="log">
+          <div class="log-head">
+            <div class="log-stamp">Decision Log 03</div>
+            <h2>The MVP was not just a smaller version of the product. It was a refusal to let backlog enthusiasm destroy launch clarity.</h2>
+          </div>
+          <p class="lead">The README says the team prioritized a lean MVP and backlog, with acceptance criteria tied to user jobs and measurable outcomes. That phrasing tells me the team understood a launch truth that product retrospectives often soften: you do not really have an MVP until you have told several attractive ideas “not yet.”</p>
+          <p>Lead-management software is unusually vulnerable to scope drift because the adjacent possibilities are endless. Once you are already tracking leads, why not add richer automations? Why not build deeper analytics? Why not add configurable stages, multi-role approvals, templates, campaign attribution, and a wider reporting layer? The answer is not that those things are unimportant. The answer is that launch quality collapses when the team tries to prove product ambition and product discipline at the same time.</p>
+          <p>The measurable-outcomes language is the useful safeguard here. Acceptance criteria tied to user jobs are much harder to game than feature checklists. A feature can be “done” while still confusing the user flow. A user job such as “receive, assign, follow up, and prevent silent loss” is less forgiving. It forces the product team to ask whether the MVP actually supports the job end to end or merely performs a polished fraction of it.</p>
+          <div class="pull">Scope freeze is where launches become recognizable. Before that point, every roadmap still imagines it might become something else.</div>
+          <p>I suspect the most consequential decision in this project was not which feature entered the MVP but which feature was pushed into backlog despite internal enthusiasm. That is often the real hinge in SaaS launches. The backlog is full of locally plausible ideas. The MVP has to survive pricing, sprint cadence, deployment readiness, and support reality all at once.</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Question</th>
+                <th>MVP-Friendly Answer</th>
+                <th>Why It Wins At Launch</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Does it help a core user job complete cleanly?</td>
+                <td>Yes, immediately.</td>
+                <td>Protects adoption by making the first workflow reliably useful.</td>
+              </tr>
+              <tr>
+                <td>Does it widen build and support scope disproportionately?</td>
+                <td>No, or only slightly.</td>
+                <td>Preserves margin and keeps sprint commitments believable.</td>
+              </tr>
+              <tr>
+                <td>Can it wait without breaking the product story?</td>
+                <td>If yes, it belongs in backlog.</td>
+                <td>Keeps the launch coherent instead of merely feature-rich.</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="log">
+          <div class="log-head">
+            <div class="log-stamp">Decision Log 04</div>
+            <h2>The two-week sprint cadence only mattered because the team used demos to learn without reopening every decision.</h2>
+          </div>
+          <p class="lead">The README describes two-week sprints, demos, and feedback capture “without derailing scope.” That final clause is doing a lot of work. Demo rituals are easy to romanticize. In weak teams they become a stage for stakeholder wish lists. In better teams they are a disciplined way to absorb reality while defending the launch boundary.</p>
+          <p>The ideal use of sprint demos in a launch like this is not to ask, “What else do we want?” It is to ask sharper questions. Did the workflow feel natural to the people who actually perform it? Did users hesitate at stage transitions? Did they understand where ownership changed? Which objections reflected true launch risk and which were simply backlog candidates wearing urgent language?</p>
+          <p>This is where chronological structure matters. The launch did not move from discovery to coding to deployment in neat isolated boxes. It moved through a series of commitments that had to survive fresh information. Sprint cadence gave the team a controlled mechanism for learning. The discipline came from refusing to let each learning moment blow up the release shape.</p>
+          <p>I appreciate the restraint implied here. Too many retrospective pages present iteration as though “we kept improving” were the whole story. That avoids the more interesting question: how did the team decide what feedback was launch-critical and what feedback was merely true? Those are different things. Some feedback is absolutely right and still belongs after launch because the cost of acting on it immediately is too high.</p>
+          <div class="two-col">
+            <div class="mini-card">
+              <strong>Good demo question</strong>
+              <p>Does this workflow reduce dropped leads and clarify ownership for the people who live in it every day?</p>
+            </div>
+            <div class="mini-card">
+              <strong>Bad demo question</strong>
+              <p>What else could we add while we are here?</p>
+            </div>
+          </div>
+          <p>If I had to summarize the implied sprint philosophy in one line, it would be this: learn fast, but do not let every lesson demand immediate product expansion. That is how you get a launch instead of an endless internal build.</p>
+        </section>
+
+        <section class="log">
+          <div class="log-head">
+            <div class="log-stamp">Decision Log 05</div>
+            <h2>Launch readiness was operational, not emotional: staging, configuration, monitoring, and rollback had to exist before the release could count.</h2>
+          </div>
+          <p class="lead">The README names a staging-to-production pipeline, server deployment, configuration management, monitoring, and rollback playbooks. That is the difference between a launch story and a feature-delivery story. A team can finish product work and still be unready to release if it has not answered the operational questions that decide whether the product survives contact with real customers.</p>
+          <p>I like that rollback is named explicitly. Launch writeups often talk as if confidence means irreversible conviction. It does not. Mature release teams are confident enough to admit that reversal is sometimes the responsible move. A rollback plan is not pessimism. It is evidence that the team understands the cost of being wrong in production.</p>
+          <p>Configuration management is also more consequential than it sounds. Workflow products that appear simple on the surface can become brittle fast if environments drift, integrations are hand-configured, or customer-specific settings are poorly controlled. Even without code in the folder, the README tells a believable story: the launch was treated as a deployable operational artifact, not merely a demo that happened to run on a server once.</p>
+          <p>Monitoring closes that loop. Without it, the team cannot tell whether the launch succeeded technically even before it starts judging product success commercially. Did the deployment remain stable? Did key actions complete reliably? Did usage patterns match the expected core flow or did users bounce into support immediately? You do not need a sprawling observability sermon to make the point. You just need to admit that launch readiness includes the ability to see what happens after release.</p>
+          <div class="pull">Shipping without rollback is bravado. Shipping without monitoring is blindness. Shipping without configuration discipline is a long apology waiting to happen.</div>
+        </section>
+
+        <section class="log">
+          <div class="log-head">
+            <div class="log-stamp">Decision Log 06</div>
+            <h2>The first post-launch roadmap should have been written by usage analytics and support KPIs, not by the loudest pre-launch opinions.</h2>
+          </div>
+          <p class="lead">The final move in the README is instrumentation: usage analytics and support KPIs to validate value, inform the roadmap, and guide post-launch optimization. That is exactly right. Once the product is live, the team gets a better source of truth than speculative backlog debate. It gets evidence about which workflows are actually used, where people stall, and what kinds of confusion survive the launch.</p>
+          <p>Support KPIs are particularly important here because workflow products fail quietly when users cannot complete a process cleanly. A raw login or usage count can flatter a product that is still generating operational friction. Support demand, on the other hand, reveals whether the product is clear enough to stand on its own. If launch success depends on repeated human explanation, the product may be alive but it is not yet healthy.</p>
+          <p>The roadmap implication is sharp. Post-launch priority should go to the places where the combination of usage behavior and support pain says the product is either leaking value or consuming too much operating effort. That is very different from giving phase two to whichever feature sounded most exciting during discovery. Launch changes the evidence standard. After release, the product earns its roadmap through observed behavior.</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Signal</th>
+                <th>What It Probably Means</th>
+                <th>Roadmap Response</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>High usage, low support friction</td>
+                <td>The core workflow landed and can bear expansion.</td>
+                <td>Invest in adjacent efficiency or reporting features.</td>
+              </tr>
+              <tr>
+                <td>High usage, high support friction</td>
+                <td>The product is needed but still confusing or brittle.</td>
+                <td>Fix clarity, defaults, and workflow edges before expanding scope.</td>
+              </tr>
+              <tr>
+                <td>Low usage, low support friction</td>
+                <td>The product may be clear but not central to daily work.</td>
+                <td>Revisit positioning, onboarding, or workflow fit.</td>
+              </tr>
+              <tr>
+                <td>Low usage, high support friction</td>
+                <td>The launch missed both relevance and operability.</td>
+                <td>Reassess the core product thesis before polishing extras.</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>This is another place where I prefer a blunt reading over a celebratory one. Launch is not validation by default. Launch is only the moment when speculation becomes measurable.</p>
+        </section>
+
+        <section class="log">
+          <div class="log-head">
+            <div class="log-stamp">Decision Log 07</div>
+            <h2>The clearest mark of discipline was what the team chose not to build before launch.</h2>
+          </div>
+          <p class="lead">The brief specifically asks for what the team chose not to build, and that is the right place to end. A launch retrospective without omission is usually propaganda. Every real launch contains appealing features that lost the argument, at least temporarily, because they threatened margin, scope clarity, supportability, or release timing.</p>
+          <p>In a lead-management product, the most tempting pre-launch additions are almost always the ones that sound strategically important and operationally survivable: deeper automations, broader analytics, more configurable flows, more edge-case support, more status branches, more integration surfaces. None of those are foolish ideas. They just do not all belong in the first release if the team still needs the product to be understandable, supportable, and commercially sane.</p>
+          <p>What I respect in the README is that it gives enough evidence to infer a disciplined sequence. Discovery came first. Economics came early. MVP scope was explicit. Sprint feedback was bounded. Deployment readiness was operationalized. Post-launch measurement was prepared. That is not glamorous, but it is the kind of process that produces a product someone can actually maintain.</p>
+          <p class="closing">My conclusion is simple: the launch worked, if it worked at all, because the team treated product shape as a series of business commitments rather than as a list of desirable features. The real record of maturity is not what made it into version one. It is what the team deliberately kept out so version one could ship with a price floor, a release cadence, and a chance of surviving its own support burden.</p>
+        </section>
+      </article>
+    </main>
+  </div>
+</body>
+</html>
