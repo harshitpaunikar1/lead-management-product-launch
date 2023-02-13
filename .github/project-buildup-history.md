@@ -32,3 +32,7 @@
 
 - Task summary: This was the middle stretch where the project started feeling real. I kept going and tried to build the base page structure or component skeleton, then cleaned up whatever looked confusing or weak from the earlier days. Once the base made some sense, I could finally move a bit faster and stop second guessing every tiny decision. I was also trying to keep the idea grounded so it did not drift into random features for no reason.
 - Deliverable: Ended the day with initial UI structure in hand, plus a few side notes on what still needed fixing later. It was not super polished, just stable enough that I felt okay moving forward.
+## 2023-02-13 - Day 7: HTML scaffold
+
+- Task summary: Late-night fix: pushed a config tweak after noticing the wrong default param was being used.
+- Deliverable: One of those satisfying small wins.
