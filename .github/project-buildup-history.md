@@ -48,3 +48,7 @@
 
 - Task summary: Quick follow-up: the output formatting looked messy when printed, so added a cleaner display block.
 - Deliverable: Should've caught it earlier but better now than later.
+## 2023-02-16 - Day 10: Artifacts
+
+- Task summary: Closer to the end, I was mostly tightening things up instead of inventing new scope. The job for the day was to create or organize diagrams, screenshots, and supporting visuals so the final result looked a bit more complete. I was not trying to add anything fancy here, just making sure the thing looked complete enough to show someone. I was also trying to keep the idea grounded so it did not drift into random features for no reason.
+- Deliverable: Ended the day with support visuals in hand, plus a few side notes on what still needed fixing later. It was not super polished, just stable enough that I felt okay moving forward.
