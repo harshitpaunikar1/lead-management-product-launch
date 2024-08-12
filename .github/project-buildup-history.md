@@ -12,3 +12,7 @@
 
 - Task summary: Quick fix: the funnel visualization was not handling the case where stage volume inverted between MQL and SQL (more SQLs than MQLs in one cohort). Added a note and a clamp to prevent negative bar widths.
 - Deliverable: Funnel chart edge case fixed for inverted stage volumes.
+## 2024-08-12 - Day 5: Intervention design
+
+- Task summary: Designed the intervention framework for the Lead Management case study. The goal was to identify three levers that a product team could pull to improve lead conversion, with estimated effort and impact for each. Structured the analysis as a 2x2 effort-impact matrix. Lead scoring improvement and personalized outreach triggers came out as the high-impact low-effort recommendations.
+- Deliverable: Intervention 2x2 matrix built. Lead scoring and personalized outreach as top recommendations.
