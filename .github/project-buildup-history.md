@@ -16,3 +16,7 @@
 
 - Task summary: Designed the intervention framework for the Lead Management case study. The goal was to identify three levers that a product team could pull to improve lead conversion, with estimated effort and impact for each. Structured the analysis as a 2x2 effort-impact matrix. Lead scoring improvement and personalized outreach triggers came out as the high-impact low-effort recommendations.
 - Deliverable: Intervention 2x2 matrix built. Lead scoring and personalized outreach as top recommendations.
+## 2024-10-14 - Day 6: A/B test design
+
+- Task summary: Designed an A/B test framework for validating the lead scoring intervention in the Lead Management case study. Defined the test unit (lead), the randomization approach (hash-based to avoid contamination), the primary metric (SQL conversion rate), and the guardrail metrics (sales team workload balance). Calculated the required sample size for 80 percent power at 5 percent significance level to detect a 10 percent relative improvement.
+- Deliverable: A/B test design complete. Sample size calculated. Randomization and guardrail metrics defined.
