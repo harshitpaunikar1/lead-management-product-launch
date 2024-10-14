@@ -24,3 +24,7 @@
 
 - Task summary: Added a novelty effect section explaining why the first two weeks of the test should be treated as a ramp and excluded from the primary analysis.
 - Deliverable: Novelty effect handling documented in test design.
+## 2024-10-14 - Day 6: A/B test design
+
+- Task summary: Wrote a pre-mortem for the test — what could go wrong, how to detect it, and what to do in each scenario. Helps frame the monitoring plan.
+- Deliverable: Pre-mortem written for the A/B test. Monitoring plan outlined.
