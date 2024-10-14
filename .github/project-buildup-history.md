@@ -20,3 +20,7 @@
 
 - Task summary: Designed an A/B test framework for validating the lead scoring intervention in the Lead Management case study. Defined the test unit (lead), the randomization approach (hash-based to avoid contamination), the primary metric (SQL conversion rate), and the guardrail metrics (sales team workload balance). Calculated the required sample size for 80 percent power at 5 percent significance level to detect a 10 percent relative improvement.
 - Deliverable: A/B test design complete. Sample size calculated. Randomization and guardrail metrics defined.
+## 2024-10-14 - Day 6: A/B test design
+
+- Task summary: Added a novelty effect section explaining why the first two weeks of the test should be treated as a ramp and excluded from the primary analysis.
+- Deliverable: Novelty effect handling documented in test design.
