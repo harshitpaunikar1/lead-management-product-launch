@@ -28,3 +28,7 @@
 
 - Task summary: Wrote a pre-mortem for the test — what could go wrong, how to detect it, and what to do in each scenario. Helps frame the monitoring plan.
 - Deliverable: Pre-mortem written for the A/B test. Monitoring plan outlined.
+## 2024-11-18 - Day 7: Final case study
+
+- Task summary: Finalized the Lead Management Product Launch case study today. Did a full review of the document flow: problem statement, current state analysis, root cause identification, proposed interventions, A/B test design, and expected outcomes. Each section linked logically to the next. Also added an appendix with the data analysis supporting the funnel conversion numbers.
+- Deliverable: Full case study reviewed and polished. Data appendix added.
