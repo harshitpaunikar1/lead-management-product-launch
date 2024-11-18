@@ -36,3 +36,7 @@
 
 - Task summary: Rewrote the executive summary to lead with the business impact estimate rather than the methodology — more appropriate for a decision-maker audience.
 - Deliverable: Executive summary restructured to lead with business impact.
+## 2024-11-18 - Day 7: Final case study
+
+- Task summary: Spellchecked and formatting pass — there were a few places where the heading hierarchy was inconsistent.
+- Deliverable: Formatting and heading hierarchy fixed throughout.
