@@ -32,3 +32,7 @@
 
 - Task summary: Finalized the Lead Management Product Launch case study today. Did a full review of the document flow: problem statement, current state analysis, root cause identification, proposed interventions, A/B test design, and expected outcomes. Each section linked logically to the next. Also added an appendix with the data analysis supporting the funnel conversion numbers.
 - Deliverable: Full case study reviewed and polished. Data appendix added.
+## 2024-11-18 - Day 7: Final case study
+
+- Task summary: Rewrote the executive summary to lead with the business impact estimate rather than the methodology — more appropriate for a decision-maker audience.
+- Deliverable: Executive summary restructured to lead with business impact.
