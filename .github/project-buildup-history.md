@@ -26,7 +26,7 @@
 - Deliverable: Novelty effect handling documented in test design.
 ## 2024-10-14 - Day 6: A/B test design
 
-- Task summary: Wrote a pre-mortem for the test — what could go wrong, how to detect it, and what to do in each scenario. Helps frame the monitoring plan.
+- Task summary: Wrote a pre-mortem for the test - what could go wrong, how to detect it, and what to do in each scenario. Helps frame the monitoring plan.
 - Deliverable: Pre-mortem written for the A/B test. Monitoring plan outlined.
 ## 2024-11-18 - Day 7: Final case study
 
@@ -34,9 +34,9 @@
 - Deliverable: Full case study reviewed and polished. Data appendix added.
 ## 2024-11-18 - Day 7: Final case study
 
-- Task summary: Rewrote the executive summary to lead with the business impact estimate rather than the methodology — more appropriate for a decision-maker audience.
+- Task summary: Rewrote the executive summary to lead with the business impact estimate rather than the methodology - more appropriate for a decision-maker audience.
 - Deliverable: Executive summary restructured to lead with business impact.
 ## 2024-11-18 - Day 7: Final case study
 
-- Task summary: Spellchecked and formatting pass — there were a few places where the heading hierarchy was inconsistent.
+- Task summary: Spellchecked and formatting pass - there were a few places where the heading hierarchy was inconsistent.
 - Deliverable: Formatting and heading hierarchy fixed throughout.
